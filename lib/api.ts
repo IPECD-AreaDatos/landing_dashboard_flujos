@@ -2,22 +2,29 @@ import { AnacResponse, CbaCbtResponse, DnrpaResponse, EmaeResponse, IpcResponse 
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_DATOS || 'http://localhost:8000/api';
 
+// Debug: verificar que la variable de entorno se esté leyendo correctamente
+if (typeof window !== 'undefined') {
+  console.log('🔍 API_BASE_URL:', API_BASE_URL);
+  console.log('🔍 NEXT_PUBLIC_API_DATOS:', process.env.NEXT_PUBLIC_API_DATOS);
+}
+
 export async function getAnacUltimosDisponibles(aeropuerto: string): Promise<AnacResponse> {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/anac/ultimos-disponibles?aeropuerto=${encodeURIComponent(aeropuerto)}`,
-      {
-        method: 'GET',
-        headers: {
-          'accept': 'application/json',
-        },
-        // Para desarrollo, permite cache
-        cache: 'no-store',
-      }
-    );
+    const url = `${API_BASE_URL}/anac/ultimos-disponibles?aeropuerto=${encodeURIComponent(aeropuerto)}`;
+    console.log('Fetching ANAC from:', url);
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+      },
+      cache: 'no-store',
+    });
 
     if (!response.ok) {
-      throw new Error(`Error al obtener datos: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('ANAC API Error:', response.status, response.statusText, errorText);
+      throw new Error(`Error al obtener datos ANAC: ${response.status} ${response.statusText}`);
     }
 
     const data: AnacResponse = await response.json();
