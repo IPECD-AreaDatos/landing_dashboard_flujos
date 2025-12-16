@@ -1,13 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAnacUltimosDisponibles, getCbaCbtUltimoDisponible, getDnrpaUltimosDisponibles, getEmaeUltimaFecha, getIpcUltimaFecha } from '@/lib/api';
-import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData } from '@/types';
+import { getAnacUltimosDisponibles, getCbaCbtUltimoDisponible, getDnrpaUltimosDisponibles, getEmaeUltimaFecha, getIpcUltimaFecha, getIericUltimosDisponibles, getIpiUltimoDisponible, getIpicorrUltimoDisponible, getOedeUltimosDisponibles, getRemUltimoDisponible, getRipteUltimoDisponible, getSipaUltimaFecha } from '@/lib/api';
+import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData, IericData, IpiData, IpicorrData, OedeData, RemData, RipteData, SipaData } from '@/types';
 import FlujoCard from '@/components/FlujoCard';
 import CbaCbtCard from '@/components/CbaCbtCard';
 import DnrpaCard from '@/components/DnrpaCard';
 import EmaeCard from '@/components/EmaeCard';
 import IpcCard from '@/components/IpcCard';
+import IericCard from '@/components/IericCard';
+import IpiCard from '@/components/IpiCard';
+import IpicorrCard from '@/components/IpicorrCard';
+import OedeCard from '@/components/OedeCard';
+import RemCard from '@/components/RemCard';
+import RipteCard from '@/components/RipteCard';
+import SipaCard from '@/components/SipaCard';
 
 export default function Dashboard() {
   const [anacData, setAnacData] = useState<AnacData | null>(null);
@@ -16,6 +23,13 @@ export default function Dashboard() {
   const [dnrpaVehiculo2, setDnrpaVehiculo2] = useState<DnrpaData | null>(null);
   const [emaeData, setEmaeData] = useState<EmaeData[]>([]);
   const [ipcData, setIpcData] = useState<IpcData[]>([]);
+  const [iericData, setIericData] = useState<IericData | null>(null);
+  const [ipiData, setIpiData] = useState<IpiData | null>(null);
+  const [ipicorrData, setIpicorrData] = useState<IpicorrData | null>(null);
+  const [oedeData, setOedeData] = useState<OedeData[]>([]);
+  const [remData, setRemData] = useState<RemData | null>(null);
+  const [ripteData, setRipteData] = useState<RipteData | null>(null);
+  const [sipaData, setSipaData] = useState<SipaData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,13 +40,20 @@ export default function Dashboard() {
         setError(null);
         
         // Fetch todos los flujos en paralelo
-        const [anacResponse, cbaCbtResponse, dnrpaResponse1, dnrpaResponse2, emaeResponse, ipcResponse] = await Promise.all([
+        const [anacResponse, cbaCbtResponse, dnrpaResponse1, dnrpaResponse2, emaeResponse, ipcResponse, iericResponse, ipiResponse, ipicorrResponse, oedeResponse, remResponse, ripteResponse, sipaResponse] = await Promise.all([
           getAnacUltimosDisponibles('Corrientes'),
           getCbaCbtUltimoDisponible(),
           getDnrpaUltimosDisponibles(18, 1),
           getDnrpaUltimosDisponibles(18, 2),
           getEmaeUltimaFecha(),
           getIpcUltimaFecha(),
+          getIericUltimosDisponibles(18),
+          getIpiUltimoDisponible(),
+          getIpicorrUltimoDisponible(),
+          getOedeUltimosDisponibles(18),
+          getRemUltimoDisponible(),
+          getRipteUltimoDisponible(),
+          getSipaUltimaFecha(),
         ]);
         
         if (anacResponse.success && anacResponse.data.length > 0) {
@@ -59,7 +80,35 @@ export default function Dashboard() {
           setIpcData(ipcResponse.data);
         }
         
-        if (!anacResponse.success && !cbaCbtResponse.success && !dnrpaResponse1.success && !dnrpaResponse2.success && !emaeResponse.success && !ipcResponse.success) {
+        if (iericResponse.success && iericResponse.data.length > 0) {
+          setIericData(iericResponse.data[0]);
+        }
+        
+        if (ipiResponse.success && ipiResponse.data) {
+          setIpiData(ipiResponse.data);
+        }
+        
+        if (ipicorrResponse.success && ipicorrResponse.data) {
+          setIpicorrData(ipicorrResponse.data);
+        }
+        
+        if (oedeResponse.success && oedeResponse.data.length > 0) {
+          setOedeData(oedeResponse.data);
+        }
+        
+        if (remResponse.success && remResponse.data) {
+          setRemData(remResponse.data);
+        }
+        
+        if (ripteResponse.success && ripteResponse.data) {
+          setRipteData(ripteResponse.data);
+        }
+        
+        if (sipaResponse.success && sipaResponse.data.length > 0) {
+          setSipaData(sipaResponse.data);
+        }
+        
+        if (!anacResponse.success && !cbaCbtResponse.success && !dnrpaResponse1.success && !dnrpaResponse2.success && !emaeResponse.success && !ipcResponse.success && !iericResponse.success && !ipiResponse.success && !ipicorrResponse.success && !oedeResponse.success && !remResponse.success && !ripteResponse.success && !sipaResponse.success) {
           setError('No se encontraron datos disponibles');
         }
       } catch (err) {
@@ -103,7 +152,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {!loading && !error && (anacData || cbaCbtData || dnrpaVehiculo1 || dnrpaVehiculo2 || emaeData.length > 0 || ipcData.length > 0) && (
+        {!loading && !error && (anacData || cbaCbtData || dnrpaVehiculo1 || dnrpaVehiculo2 || emaeData.length > 0 || ipcData.length > 0 || iericData || ipiData || ipicorrData || oedeData.length > 0 || remData || ripteData || sipaData.length > 0) && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {anacData && <FlujoCard data={anacData} flujoNombre="ANAC" />}
             {cbaCbtData && <CbaCbtCard data={cbaCbtData} flujoNombre="CBA-CBT" />}
@@ -119,6 +168,27 @@ export default function Dashboard() {
             )}
             {ipcData.length > 0 && (
               <IpcCard data={ipcData} flujoNombre="IPC" />
+            )}
+            {iericData && (
+              <IericCard data={iericData} flujoNombre="IERIC" />
+            )}
+            {ipiData && (
+              <IpiCard data={ipiData} flujoNombre="IPI Nación" />
+            )}
+            {ipicorrData && (
+              <IpicorrCard data={ipicorrData} flujoNombre="IPICORR" />
+            )}
+            {oedeData.length > 0 && (
+              <OedeCard data={oedeData} flujoNombre="OEDE" />
+            )}
+            {remData && (
+              <RemCard data={remData} flujoNombre="REM" />
+            )}
+            {ripteData && (
+              <RipteCard data={ripteData} flujoNombre="RIPTE" />
+            )}
+            {sipaData.length > 0 && (
+              <SipaCard data={sipaData} flujoNombre="SIPA" />
             )}
           </div>
         )}

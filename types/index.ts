@@ -72,3 +72,119 @@ export interface IpcResponse {
   total: number;
 }
 
+export interface IericData {
+  fecha: string;
+  id_provincia: number;
+  cant_empresas: number;
+  porcentaje_var_interanual: number;
+}
+
+export interface IericResponse {
+  success: boolean;
+  message: string;
+  data: IericData[];
+  total: number;
+}
+
+export interface IpiData {
+  fecha: string;
+  ipi_manufacturero: number;
+  alimentos: number;
+  textil: number;
+  maderas: number;
+  sustancias: number;
+  min_no_metalicos: number;
+  min_metales: number;
+  var_mensual_ipi_manufacturero: number;
+  var_mensual_alimentos: number;
+  var_mensual_textil: number;
+  var_mensual_maderas: number;
+  var_mensual_sustancias: number;
+  var_mensual_min_no_metalicos: number;
+  var_mensual_min_metales: number;
+}
+
+export interface IpiResponse {
+  success: boolean;
+  message: string;
+  data: IpiData;
+  total: number;
+}
+
+export interface IpicorrData {
+  fecha: string;
+  var_ia_nivel_general: number;
+  vim_nivel_general: number;
+  vim_alimentos: number;
+  vim_textil: number;
+  vim_maderas: number;
+  vim_min_nometalicos: number;
+  vim_metales: number;
+  var_ia_alimentos: number;
+  var_ia_textil: number;
+  var_ia_maderas: number;
+  var_ia_min_nometalicos: number;
+  var_ia_metales: number;
+}
+
+export interface IpicorrResponse {
+  success: boolean;
+  message: string;
+  data: IpicorrData;
+  total: number;
+}
+
+export interface OedeData {
+  fecha: string;
+  id_provincia: number;
+  id_categoria: string;
+  id_subcategoria: number;
+  valor: number;
+}
+
+export interface OedeResponse {
+  success: boolean;
+  message: string;
+  data: OedeData[];
+  total: number;
+}
+
+export interface RemData {
+  fecha: string;
+  cambio_nominal: number;
+}
+
+export interface RemResponse {
+  success: boolean;
+  message: string;
+  data: RemData;
+  total: number;
+}
+
+export interface RipteData {
+  fecha: string;
+  valor: number;
+}
+
+export interface RipteResponse {
+  success: boolean;
+  message: string;
+  data: RipteData;
+  total: number;
+}
+
+export interface SipaData {
+  fecha: string;
+  id_provincia: number;
+  id_tipo_registro: number;
+  cantidad_con_estacionalidad: number;
+  cantidad_sin_estacionalidad: number;
+}
+
+export interface SipaResponse {
+  success: boolean;
+  message: string;
+  data: SipaData[];
+  total: number;
+}
+
