@@ -103,3 +103,4 @@ export default function OedeCard({ data, flujoNombre }: OedeCardProps) {
   );
 }
 
+

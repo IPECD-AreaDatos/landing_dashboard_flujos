@@ -38,3 +38,4 @@ export default function RipteCard({ data, flujoNombre }: RipteCardProps) {
   );
 }
 
+

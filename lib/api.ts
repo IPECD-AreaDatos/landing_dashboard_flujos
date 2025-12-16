@@ -1,4 +1,4 @@
-import { AnacResponse, CbaCbtResponse, DnrpaResponse, EmaeResponse, IpcResponse, IericResponse, IpiResponse, IpicorrResponse, OedeResponse, RemResponse, RipteResponse, SipaResponse } from '@/types';
+import { AnacResponse, CbaCbtResponse, DnrpaResponse, EmaeResponse, IpcResponse, IericResponse, IpiResponse, IpicorrResponse, OedeResponse, RemResponse, RipteResponse, SipaResponse, SmvmResponse } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_DATOS || 'http://localhost:8000/api';
 
@@ -309,6 +309,31 @@ export async function getSipaUltimaFecha(): Promise<SipaResponse> {
     return data;
   } catch (error) {
     console.error('Error fetching SIPA data:', error);
+    throw error;
+  }
+}
+
+export async function getSmvmUltimoDisponible(): Promise<SmvmResponse> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/smvm/ultimo-disponible`,
+      {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json',
+        },
+        cache: 'no-store',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error al obtener datos: ${response.statusText}`);
+    }
+
+    const data: SmvmResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching SMVM data:', error);
     throw error;
   }
 }

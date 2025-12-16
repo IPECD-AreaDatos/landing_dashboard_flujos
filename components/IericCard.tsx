@@ -49,3 +49,4 @@ export default function IericCard({ data, flujoNombre }: IericCardProps) {
   );
 }
 
+

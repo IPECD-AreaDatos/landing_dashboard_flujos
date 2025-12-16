@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAnacUltimosDisponibles, getCbaCbtUltimoDisponible, getDnrpaUltimosDisponibles, getEmaeUltimaFecha, getIpcUltimaFecha, getIericUltimosDisponibles, getIpiUltimoDisponible, getIpicorrUltimoDisponible, getOedeUltimosDisponibles, getRemUltimoDisponible, getRipteUltimoDisponible, getSipaUltimaFecha } from '@/lib/api';
-import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData, IericData, IpiData, IpicorrData, OedeData, RemData, RipteData, SipaData } from '@/types';
+import { getAnacUltimosDisponibles, getCbaCbtUltimoDisponible, getDnrpaUltimosDisponibles, getEmaeUltimaFecha, getIpcUltimaFecha, getIericUltimosDisponibles, getIpiUltimoDisponible, getIpicorrUltimoDisponible, getOedeUltimosDisponibles, getRemUltimoDisponible, getRipteUltimoDisponible, getSipaUltimaFecha, getSmvmUltimoDisponible } from '@/lib/api';
+import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData, IericData, IpiData, IpicorrData, OedeData, RemData, RipteData, SipaData, SmvmData } from '@/types';
 import FlujoCard from '@/components/FlujoCard';
 import CbaCbtCard from '@/components/CbaCbtCard';
 import DnrpaCard from '@/components/DnrpaCard';
@@ -15,6 +15,7 @@ import OedeCard from '@/components/OedeCard';
 import RemCard from '@/components/RemCard';
 import RipteCard from '@/components/RipteCard';
 import SipaCard from '@/components/SipaCard';
+import SmvmCard from '@/components/SmvmCard';
 
 export default function Dashboard() {
   const [anacData, setAnacData] = useState<AnacData | null>(null);
@@ -30,6 +31,7 @@ export default function Dashboard() {
   const [remData, setRemData] = useState<RemData | null>(null);
   const [ripteData, setRipteData] = useState<RipteData | null>(null);
   const [sipaData, setSipaData] = useState<SipaData[]>([]);
+  const [smvmData, setSmvmData] = useState<SmvmData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,7 +42,7 @@ export default function Dashboard() {
         setError(null);
         
         // Fetch todos los flujos en paralelo
-        const [anacResponse, cbaCbtResponse, dnrpaResponse1, dnrpaResponse2, emaeResponse, ipcResponse, iericResponse, ipiResponse, ipicorrResponse, oedeResponse, remResponse, ripteResponse, sipaResponse] = await Promise.all([
+        const [anacResponse, cbaCbtResponse, dnrpaResponse1, dnrpaResponse2, emaeResponse, ipcResponse, iericResponse, ipiResponse, ipicorrResponse, oedeResponse, remResponse, ripteResponse, sipaResponse, smvmResponse] = await Promise.all([
           getAnacUltimosDisponibles('Corrientes'),
           getCbaCbtUltimoDisponible(),
           getDnrpaUltimosDisponibles(18, 1),
@@ -54,6 +56,7 @@ export default function Dashboard() {
           getRemUltimoDisponible(),
           getRipteUltimoDisponible(),
           getSipaUltimaFecha(),
+          getSmvmUltimoDisponible(),
         ]);
         
         if (anacResponse.success && anacResponse.data.length > 0) {
@@ -108,7 +111,11 @@ export default function Dashboard() {
           setSipaData(sipaResponse.data);
         }
         
-        if (!anacResponse.success && !cbaCbtResponse.success && !dnrpaResponse1.success && !dnrpaResponse2.success && !emaeResponse.success && !ipcResponse.success && !iericResponse.success && !ipiResponse.success && !ipicorrResponse.success && !oedeResponse.success && !remResponse.success && !ripteResponse.success && !sipaResponse.success) {
+        if (smvmResponse.success && smvmResponse.data) {
+          setSmvmData(smvmResponse.data);
+        }
+        
+        if (!anacResponse.success && !cbaCbtResponse.success && !dnrpaResponse1.success && !dnrpaResponse2.success && !emaeResponse.success && !ipcResponse.success && !iericResponse.success && !ipiResponse.success && !ipicorrResponse.success && !oedeResponse.success && !remResponse.success && !ripteResponse.success && !sipaResponse.success && !smvmResponse.success) {
           setError('No se encontraron datos disponibles');
         }
       } catch (err) {
@@ -152,7 +159,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {!loading && !error && (anacData || cbaCbtData || dnrpaVehiculo1 || dnrpaVehiculo2 || emaeData.length > 0 || ipcData.length > 0 || iericData || ipiData || ipicorrData || oedeData.length > 0 || remData || ripteData || sipaData.length > 0) && (
+        {!loading && !error && (anacData || cbaCbtData || dnrpaVehiculo1 || dnrpaVehiculo2 || emaeData.length > 0 || ipcData.length > 0 || iericData || ipiData || ipicorrData || oedeData.length > 0 || remData || ripteData || sipaData.length > 0 || smvmData) && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {anacData && <FlujoCard data={anacData} flujoNombre="ANAC" />}
             {cbaCbtData && <CbaCbtCard data={cbaCbtData} flujoNombre="CBA-CBT" />}
@@ -189,6 +196,9 @@ export default function Dashboard() {
             )}
             {sipaData.length > 0 && (
               <SipaCard data={sipaData} flujoNombre="SIPA" />
+            )}
+            {smvmData && (
+              <SmvmCard data={smvmData} flujoNombre="SMVM" />
             )}
           </div>
         )}

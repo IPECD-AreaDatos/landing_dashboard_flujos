@@ -144,3 +144,4 @@ export default function IpicorrCard({ data, flujoNombre }: IpicorrCardProps) {
   );
 }
 
+

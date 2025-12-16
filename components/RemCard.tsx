@@ -41,3 +41,4 @@ export default function RemCard({ data, flujoNombre }: RemCardProps) {
   );
 }
 
+

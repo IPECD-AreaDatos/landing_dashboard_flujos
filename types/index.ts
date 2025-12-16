@@ -188,3 +188,17 @@ export interface SipaResponse {
   total: number;
 }
 
+export interface SmvmData {
+  fecha: string;
+  salario_mvm_mensual: number;
+  salario_mvm_diario: number;
+  salario_mvm_hora: number;
+}
+
+export interface SmvmResponse {
+  success: boolean;
+  message: string;
+  data: SmvmData;
+  total: number;
+}
+
