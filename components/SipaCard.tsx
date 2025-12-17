@@ -37,8 +37,8 @@ export default function SipaCard({ data, flujoNombre }: SipaCardProps) {
   }, {} as Record<string, SipaData>);
 
   const registros = Object.values(datosAgrupados);
-  const provinciasUnicas = [...new Set(data.map(item => item.id_provincia))];
-  const tiposRegistroUnicos = [...new Set(data.map(item => item.id_tipo_registro))];
+  const provinciasUnicas = Array.from(new Set(data.map(item => item.id_provincia)));
+  const tiposRegistroUnicos = Array.from(new Set(data.map(item => item.id_tipo_registro)));
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 border-l-4 border-emerald-500 hover:shadow-xl transition-shadow">
@@ -107,5 +107,7 @@ export default function SipaCard({ data, flujoNombre }: SipaCardProps) {
     </div>
   );
 }
+
+
 
 
