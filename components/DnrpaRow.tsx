@@ -1,45 +1,35 @@
 'use client';
-
 import { DnrpaData } from '@/types';
 import { DashboardRow } from './DashboardRow';
+import { StatItem } from './StatItem';
 
 interface DnrpaRowProps {
-  vehiculo1: DnrpaData | null;
-  vehiculo2: DnrpaData | null;
+  vehiculo1: DnrpaData | null; // Autos
+  vehiculo2: DnrpaData | null; // Motos
   flujoNombre: string;
 }
 
 export default function DnrpaRow({ vehiculo1, vehiculo2, flujoNombre }: DnrpaRowProps) {
-  // Usar la fecha del primer vehículo
   const fechaData = vehiculo1 || vehiculo2;
-  
   if (!fechaData) return null;
 
-  // Tu lógica de fechas original
   const [year, month, day] = fechaData.fecha.split('-').map(Number);
-  const fecha = new Date(year, month - 1, day);
-  const fechaFormateada = fecha.toLocaleDateString('es-AR', {
+  const fecha = new Date(year, month - 1, day).toLocaleDateString('es-AR', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
-      <div className="flex items-center gap-3">
+    <DashboardRow title={flujoNombre} date={fecha}>
+      {/* Separador vertical sutil entre datos */}
+      <div className="flex gap-8 divide-x divide-gray-100">
         {vehiculo1 && (
-          <div className="flex items-center gap-2 bg-purple-50 px-3 py-1 rounded-md border border-purple-100">
-            <span className="text-xs font-bold text-purple-600 uppercase">Autos</span>
-            <span className="font-mono font-bold text-purple-900">
-              {vehiculo1.cantidad.toLocaleString('es-AR')}
-            </span>
+          <div className="pl-4 first:pl-0">
+             <StatItem label="Autos Insc." value={vehiculo1.cantidad.toLocaleString('es-AR')} />
           </div>
         )}
-        
         {vehiculo2 && (
-          <div className="flex items-center gap-2 bg-indigo-50 px-3 py-1 rounded-md border border-indigo-100">
-            <span className="text-xs font-bold text-indigo-600 uppercase">Motos</span>
-            <span className="font-mono font-bold text-indigo-900">
-              {vehiculo2.cantidad.toLocaleString('es-AR')}
-            </span>
+          <div className="pl-8">
+             <StatItem label="Motos Insc." value={vehiculo2.cantidad.toLocaleString('es-AR')} />
           </div>
         )}
       </div>

@@ -1,34 +1,28 @@
 interface DashboardRowProps {
   title: string;
   date: string;
-  children: React.ReactNode; // Aquí irán los datos variables
-  status?: 'success' | 'warning' | 'error'; // Opcional: para colorear si el dato es viejo
+  children: React.ReactNode;
 }
 
-export const DashboardRow = ({ title, date, children, status = 'success' }: DashboardRowProps) => {
+export const DashboardRow = ({ title, date, children }: DashboardRowProps) => {
   return (
-    <div className="group flex flex-col md:flex-row items-center justify-between p-4 bg-white border-b border-gray-100 hover:bg-gray-50 transition-all">
+    <div className="group flex flex-col md:flex-row items-center justify-between py-5 px-6 bg-white border-b border-gray-100 hover:bg-emerald-50/30 transition-all duration-300">
       
-      {/* COLUMNA 1: Nombre del Indicador */}
+      {/* COLUMNA 1: Indicador (Minimalista) */}
       <div className="w-full md:w-1/4 mb-2 md:mb-0">
-        <h3 className="font-bold text-gray-800">{title}</h3>
-        <span className="text-xs text-gray-400 md:hidden">Última actualización:</span>
+        <h3 className="font-semibold text-gray-900 text-base">{title}</h3>
       </div>
 
-      {/* COLUMNA 2: Fecha (Crucial para monitoreo) */}
-      <div className="w-full md:w-1/4 mb-2 md:mb-0 text-sm text-gray-600">
-        <span className="hidden md:inline mr-2"></span>
-        {date}
+      {/* COLUMNA 2: Fecha (Gris suave y pequeña) */}
+      <div className="w-full md:w-1/4 mb-2 md:mb-0">
+        <div className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+          {date}
+        </div>
       </div>
 
-      {/* COLUMNA 3: Los Datos (Flexible) */}
-      <div className="w-full md:w-2/4 flex flex-wrap gap-2 items-center">
+      {/* COLUMNA 3: Datos (Alineados y limpios) */}
+      <div className="w-full md:w-2/4 flex flex-wrap gap-6 items-center justify-start md:justify-end">
         {children}
-      </div>
-
-      {/* COLUMNA 4: Botón discreto (aparece al hacer hover en desktop) */}
-      <div className="hidden md:block w-10 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-gray-400 hover:text-blue-600">
-        ➔
       </div>
     </div>
   );
