@@ -18,7 +18,8 @@ export default function IpcRow({ data, flujoNombre }: { data: IpcData[]; flujoNo
   if (!datoMostrar) return null;
 
   const [year, month, day] = datoMostrar.fecha.split('-').map(Number);
-  const fecha = new Date(year, month - 1, day).toLocaleDateString('es-AR', {
+  const fechaDate = new Date(year, month - 1, day);
+  const fecha = fechaDate.toLocaleDateString('es-AR', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
 
@@ -29,30 +30,25 @@ export default function IpcRow({ data, flujoNombre }: { data: IpcData[]; flujoNo
     : datoMostrar.region.toUpperCase();
 
   return (
-    <DashboardRow title={flujoNombre} date={fecha}>
-      <div className="flex gap-6 justify-end items-center">
-        
-        {/* Badge de Región */}
-        <div className="flex flex-col items-end justify-center">
-            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
-                nombreRegion === 'NACIONAL'
-                ? 'bg-gray-100 text-gray-500 border-gray-200'  // Estilo discreto para Nacional
-                : 'bg-amber-50 text-amber-600 border-amber-200' // Estilo aviso para otras regiones
-            }`}>
-                {nombreRegion}
-            </span>
-        </div>
-        
-        {/* Dato Principal: Puntos */}
-        <StatItem 
-          label="Índice Base" 
-          value={datoMostrar.valor.toLocaleString('es-AR', {
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1
-          })} 
-          subValue="pts" 
-        />
-      </div>
+    <DashboardRow title={flujoNombre} date={fecha} fechaDato={fechaDate}>
+      {/* Badge de Región */}
+      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+        nombreRegion === 'NACIONAL'
+        ? 'bg-gray-100 text-gray-500 border-gray-200'  // Estilo discreto para Nacional
+        : 'bg-amber-50 text-amber-600 border-amber-200' // Estilo aviso para otras regiones
+      }`}>
+        {nombreRegion}
+      </span>
+      
+      {/* Dato Principal: Puntos */}
+      <StatItem 
+        label="Índice Base" 
+        value={datoMostrar.valor.toLocaleString('es-AR', {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1
+        })} 
+        subValue="pts" 
+      />
     </DashboardRow>
   );
 }

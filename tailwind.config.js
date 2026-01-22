@@ -6,7 +6,15 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'ipecd': {
+          'dark': '#526928',
+          'primary': '#96C156',
+          'light': '#CADFAB',
+        },
+      },
+    },
   },
   plugins: [],
 }

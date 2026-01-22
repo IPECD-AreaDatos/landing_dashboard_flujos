@@ -24,7 +24,7 @@ export default function IericRow({ data, flujoNombre }: IericRowProps) {
     : 'bg-red-100 text-red-700 border-red-200';
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
+    <DashboardRow title={flujoNombre} date={fechaFormateada} fechaDato={fecha}>
       <div className="flex items-center gap-4">
         {/* Cantidad de empresas */}
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-1">

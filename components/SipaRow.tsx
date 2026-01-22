@@ -23,7 +23,7 @@ export default function SipaRow({ data, flujoNombre }: SipaRowProps) {
   const provinciasUnicas = new Set(data.map(d => d.id_provincia)).size;
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
+    <DashboardRow title={flujoNombre} date={fechaFormateada} fechaDato={fecha}>
       <div className="flex items-center gap-4">
         <div className="flex flex-col">
            <span className="text-xs text-gray-400 uppercase">Total Registrado</span>

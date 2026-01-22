@@ -5,7 +5,8 @@ import { StatItem } from './StatItem';
 
 export default function IpicorrRow({ data, flujoNombre }: { data: IpicorrData; flujoNombre: string }) {
   const [year, month, day] = data.fecha.split('-').map(Number);
-  const fecha = new Date(year, month - 1, day).toLocaleDateString('es-AR', {
+  const fechaDate = new Date(year, month - 1, day);
+  const fecha = fechaDate.toLocaleDateString('es-AR', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
 
@@ -17,21 +18,19 @@ export default function IpicorrRow({ data, flujoNombre }: { data: IpicorrData; f
   const esPosInt = data.var_ia_nivel_general >= 0;
 
   return (
-    <DashboardRow title={flujoNombre} date={fecha}>
-       <div className="flex gap-8">
-         <StatItem 
-            label="Var. Mensual" 
-            value={varMen} 
-            subValue={esPosMen ? '▲' : '▼'} 
-            isPositive={esPosMen}
-         />
-         <StatItem 
-            label="Var. Interanual" 
-            value={varInt} 
-            subValue={esPosInt ? '▲' : '▼'} 
-            isPositive={esPosInt}
-         />
-       </div>
+    <DashboardRow title={flujoNombre} date={fecha} fechaDato={fechaDate}>
+      <StatItem 
+        label="Var. Mensual" 
+        value={varMen} 
+        subValue={esPosMen ? '▲' : '▼'} 
+        isPositive={esPosMen}
+      />
+      <StatItem 
+        label="Var. Interanual" 
+        value={varInt} 
+        subValue={esPosInt ? '▲' : '▼'} 
+        isPositive={esPosInt}
+      />
     </DashboardRow>
   );
 }

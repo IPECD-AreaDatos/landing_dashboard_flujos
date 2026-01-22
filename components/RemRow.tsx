@@ -16,7 +16,7 @@ export default function RemRow({ data, flujoNombre }: RemRowProps) {
   });
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
+    <DashboardRow title={flujoNombre} date={fechaFormateada} fechaDato={fecha}>
       <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
         <span className="text-xs font-bold text-slate-500 uppercase">Cambio Nominal:</span>
         <span className="font-mono text-xl font-bold text-slate-700">

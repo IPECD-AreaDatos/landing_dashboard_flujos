@@ -16,7 +16,7 @@ export default function SmvmRow({ data, flujoNombre }: SmvmRowProps) {
   });
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
+    <DashboardRow title={flujoNombre} date={fechaFormateada} fechaDato={fecha}>
       <div className="flex items-center gap-4">
         {/* Mensual */}
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-1">

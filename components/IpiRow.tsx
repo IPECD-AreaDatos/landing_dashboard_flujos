@@ -23,7 +23,7 @@ export default function IpiRow({ data, flujoNombre }: IpiRowProps) {
   const colorClass = esPositivo ? 'text-green-600' : 'text-red-600';
 
   return (
-    <DashboardRow title={flujoNombre} date={fechaFormateada}>
+    <DashboardRow title={flujoNombre} date={fechaFormateada} fechaDato={fecha}>
       <div className="flex items-center gap-4">
         {/* Valor Absoluto */}
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-1">

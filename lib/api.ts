@@ -238,6 +238,31 @@ export async function getOedeUltimosDisponibles(idProvincia: number): Promise<Oe
   }
 }
 
+export async function getOedeUltimaFecha(): Promise<OedeResponse> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/oede/ultima-fecha`,
+      {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json',
+        },
+        cache: 'no-store',
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error al obtener datos: ${response.statusText}`);
+    }
+
+    const data: OedeResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching OEDE data:', error);
+    throw error;
+  }
+}
+
 export async function getRemUltimoDisponible(): Promise<RemResponse> {
   try {
     const response = await fetch(
