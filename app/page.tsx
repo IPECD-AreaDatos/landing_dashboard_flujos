@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { getAnacUltimosDisponibles, getCbaCbtUltimoDisponible, getDnrpaUltimosDisponibles, getEmaeUltimaFecha, getIpcUltimaFecha, getIericUltimosDisponibles, getIpiUltimoDisponible, getIpicorrUltimoDisponible, getOedeUltimaFecha, getRemUltimoDisponible, getRipteUltimoDisponible, getSipaUltimaFecha, getSmvmUltimoDisponible } from '@/lib/api';
-import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData, IericData, IpiData, IpicorrData, OedeData, RemData, RipteData, SipaData, SmvmData } from '@/types';
+import { AnacData, CbaCbtData, DnrpaData, EmaeData, IpcData, IericData, IpiData, IpicorrData, OedeData, RemData, RipteData, SipaData, SmvmData, AnacResponse, CbaCbtResponse, DnrpaResponse, EmaeResponse, IpcResponse, IericResponse, IpiResponse, IpicorrResponse, OedeResponse, RemResponse, RipteResponse, SipaResponse, SmvmResponse } from '@/types';
 
 // --- COMPONENTES ROW (NUEVOS) ---
 import AnacRow from '@/components/AnacRow'; // Asegúrate de haber renombrado o creado este archivo
@@ -104,20 +104,48 @@ export default function Dashboard() {
         } else {
           const { flujo, data } = result.value;
           // Procesar cada flujo según su tipo
-          if (flujo === 'ANAC' && data.success && data.data.length > 0) setAnacData(data.data[0]);
-          else if (flujo === 'CBA-CBT' && data.success && data.data) setCbaCbtData(data.data);
-          else if (flujo === 'DNRPA-1' && data.success && data.data.length > 0) setDnrpaVehiculo1(data.data[0]);
-          else if (flujo === 'DNRPA-2' && data.success && data.data.length > 0) setDnrpaVehiculo2(data.data[0]);
-          else if (flujo === 'EMAE' && data.success && data.data.length > 0) setEmaeData(data.data);
-          else if (flujo === 'IPC' && data.success && data.data.length > 0) setIpcData(data.data);
-          else if (flujo === 'IERIC' && data.success && data.data.length > 0) setIericData(data.data[0]);
-          else if (flujo === 'IPI' && data.success && data.data) setIpiData(data.data);
-          else if (flujo === 'IPICORR' && data.success && data.data) setIpicorrData(data.data);
-          else if (flujo === 'OEDE' && data.success && data.data.length > 0) setOedeData(data.data);
-          else if (flujo === 'REM' && data.success && data.data) setRemData(data.data);
-          else if (flujo === 'RIPTE' && data.success && data.data) setRipteData(data.data);
-          else if (flujo === 'SIPA' && data.success && data.data.length > 0) setSipaData(data.data);
-          else if (flujo === 'SMVM' && data.success && data.data) setSmvmData(data.data);
+          if (flujo === 'ANAC' && data.success && Array.isArray((data as AnacResponse).data) && (data as AnacResponse).data.length > 0) {
+            setAnacData((data as AnacResponse).data[0]);
+          }
+          else if (flujo === 'CBA-CBT' && data.success && (data as CbaCbtResponse).data) {
+            setCbaCbtData((data as CbaCbtResponse).data);
+          }
+          else if (flujo === 'DNRPA-1' && data.success && Array.isArray((data as DnrpaResponse).data) && (data as DnrpaResponse).data.length > 0) {
+            setDnrpaVehiculo1((data as DnrpaResponse).data[0]);
+          }
+          else if (flujo === 'DNRPA-2' && data.success && Array.isArray((data as DnrpaResponse).data) && (data as DnrpaResponse).data.length > 0) {
+            setDnrpaVehiculo2((data as DnrpaResponse).data[0]);
+          }
+          else if (flujo === 'EMAE' && data.success && Array.isArray((data as EmaeResponse).data) && (data as EmaeResponse).data.length > 0) {
+            setEmaeData((data as EmaeResponse).data);
+          }
+          else if (flujo === 'IPC' && data.success && Array.isArray((data as IpcResponse).data) && (data as IpcResponse).data.length > 0) {
+            setIpcData((data as IpcResponse).data);
+          }
+          else if (flujo === 'IERIC' && data.success && Array.isArray((data as IericResponse).data) && (data as IericResponse).data.length > 0) {
+            setIericData((data as IericResponse).data[0]);
+          }
+          else if (flujo === 'IPI' && data.success && (data as IpiResponse).data) {
+            setIpiData((data as IpiResponse).data);
+          }
+          else if (flujo === 'IPICORR' && data.success && (data as IpicorrResponse).data) {
+            setIpicorrData((data as IpicorrResponse).data);
+          }
+          else if (flujo === 'OEDE' && data.success && Array.isArray((data as OedeResponse).data) && (data as OedeResponse).data.length > 0) {
+            setOedeData((data as OedeResponse).data);
+          }
+          else if (flujo === 'REM' && data.success && (data as RemResponse).data) {
+            setRemData((data as RemResponse).data);
+          }
+          else if (flujo === 'RIPTE' && data.success && (data as RipteResponse).data) {
+            setRipteData((data as RipteResponse).data);
+          }
+          else if (flujo === 'SIPA' && data.success && Array.isArray((data as SipaResponse).data) && (data as SipaResponse).data.length > 0) {
+            setSipaData((data as SipaResponse).data);
+          }
+          else if (flujo === 'SMVM' && data.success && (data as SmvmResponse).data) {
+            setSmvmData((data as SmvmResponse).data);
+          }
         }
       });
       
